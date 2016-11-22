@@ -56,7 +56,8 @@ router.get('/list-tables/:tableName', security.auth, function (req, res, next) {
 router.get('/get-data/:tableName', security.auth, function (req, res, next) {
     var connection = dbconnection.getConnection();
     var tableName = req.params["tableName"];
-    var fields_params = req.query.fields.split(",");
+
+    var fields_params = (req.query.fields) ? req.query.fields.split(",") : next(new Error('fields is required :-('));
     var query = util.format("select * from %s", tableName);
     connection.query(query, function (err, rows, fields) {
         if (err) return next(err);
