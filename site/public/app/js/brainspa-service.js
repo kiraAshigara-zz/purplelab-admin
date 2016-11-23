@@ -2,7 +2,7 @@ var BRAINSPA_SERVICE = (function () {
 
     var username = 'root';
     var password = 'test01';
-    var API_URL = 'http://localhost:3001';
+    var API_URL = 'http://' + window.location.host.replace('3000', '3001');
     var GET_ALL_TABLES = API_URL + '/list-tables';
     var GET_TABLE_FIELDS_INFO = API_URL + '/list-tables/{0}';
     var GET_TABLE_DATA = API_URL + '/get-data/{0}';
