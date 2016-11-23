@@ -120,5 +120,22 @@ router.post('/update/:tableName', security.auth, function (req, res, next) {
     });
 });
 
+router.delete('/delete/:tableName/:pk', security.auth, function (req, res, next) {
+    var tableName = req.params["tableName"];
+    var pk = req.params["pk"];
+
+    var connection = dbconnection.getConnection();
+    dbconnection.getPrimaryKeyFromTable(connection, tableName, function (data) {
+        var indexName = data["Column_name"];
+
+        var queryDelete = util.format("delete from %s where %s = '%s'", tableName, indexName, pk);
+        connection.query(queryDelete, function (err, result) {
+            if (err) return next(err);
+            res.json({"affectedRows": result["affectedRows"]});
+        });
+        connection.end();
+    });
+});
+
 
 module.exports = router;
