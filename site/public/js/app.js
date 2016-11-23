@@ -398,7 +398,7 @@ $(window).load(function(){
 
     setTimeout(function () {
         if (!$('.login-content')[0]) {
-            notify('Welcome back Mallinda Hollaway', 'inverse');
+            notify('Welcome back ' + $('.sp-info').text() + ' :)', 'inverse');
         }
     }, 1000)
 });
