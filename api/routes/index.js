@@ -63,7 +63,7 @@ router.get('/get-data/:tableName', security.auth, function (req, res, next) {
         if (err) return next(err);
         var result = [];
         for (var i in rows) {
-            result.push(rows[0]);
+            result.push(rows[i]);
         }
         res.json(result);
     });
