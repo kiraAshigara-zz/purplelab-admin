@@ -5,9 +5,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Material Admin</title>
+    <title>Spa Admin Center</title>
 
     <!-- Vendor CSS -->
+    <link href="vendors/bower_components/fullcalendar/dist/fullcalendar.min.css" rel="stylesheet">
+    <link href="vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
+    <link href="vendors/bower_components/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
     <link href="vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css"
           rel="stylesheet">
     <link href="vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css"
@@ -15,8 +18,10 @@
 
     <!-- CSS -->
     <link href="css/app_1.min.css" rel="stylesheet">
-</head>
+    <link href="css/app_2.min.css" rel="stylesheet">
+    <link href="/app/css/custom.css" rel="stylesheet">
 
+</head>
 <body>
 <header id="header" class="clearfix" data-ma-theme="blue">
     <ul class="h-inner">
@@ -29,7 +34,17 @@
         </li>
 
         <li class="hi-logo hidden-xs">
-            <a href="index.html">Material Admin</a>
+            <a href="index.html">Spa Admin Center</a>
+        </li>
+
+        <li class="pull-right">
+            <ul class="hi-menu">
+
+                <li data-ma-action="search-open">
+                    <a href=""><i class="him-icon zmdi zmdi-search"></i></a>
+                </li>
+
+            </ul>
         </li>
     </ul>
 
@@ -39,6 +54,12 @@
             <i class="hsw-close zmdi zmdi-arrow-left" data-ma-action="search-close"></i>
             <input type="text">
         </div>
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin: 0;
+        padding: 0;
+        max-width: 200px;
     </div>
 </header>
 
@@ -51,7 +72,7 @@
                 </div>
 
                 <div class="sp-info">
-                    Malinda Hollaway
+                    <%= userName %>
 
                     <i class="zmdi zmdi-caret-down"></i>
                 </div>
@@ -59,83 +80,117 @@
 
             <ul class="main-menu">
                 <li>
-                    <a href=""><i class="zmdi zmdi-account"></i> View Profile</a>
-                </li>
-                <li>
-                    <a href=""><i class="zmdi zmdi-input-antenna"></i> Privacy Settings</a>
-                </li>
-                <li>
-                    <a href=""><i class="zmdi zmdi-settings"></i> Settings</a>
-                </li>
-                <li>
                     <a href=""><i class="zmdi zmdi-time-restore"></i> Logout</a>
                 </li>
             </ul>
         </div>
 
-        <ul class="main-menu">
-            <li class="active"><a href="index.html"><i class="zmdi zmdi-home"></i> Home</a></li>
-            <li><a href="typography.html"><i class="zmdi zmdi-format-underlined"></i> Typography</a></li>
-            <li><a href="tables.html"><i class="zmdi zmdi-view-list"></i> Tables</a></li>
-            <li><a href="form-elements.html"><i class="zmdi zmdi-collection-text"></i> Form Elements</a></li>
-            <li><a href="buttons.html"><i class="zmdi zmdi-crop-16-9"></i> Buttons</a></li>
-            <li><a href="icons.html"><i class="zmdi zmdi-airplane"></i>Icons</a></li>
-            <li class="sub-menu">
-                <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-collection-item"></i> Sample Pages</a>
-                <ul>
-                    <li><a href="login.html">Login and Sign Up</a></li>
-                    <li><a href="lockscreen.html">Lockscreen</a></li>
-                    <li><a href="404.html">Error 404</a></li>
-                </ul>
-            </li>
-            <li class="sub-menu">
-                <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-menu"></i> 3 Level Menu</a>
-
-                <ul>
-                    <li><a href="form-elements.html">Level 2 link</a></li>
-                    <li class="sub-menu">
-                        <a href="" data-ma-action="submenu-toggle">I have children too</a>
-
-                        <ul>
-                            <li><a href="">Level 3 link</a></li>
-                            <li><a href="">Another Level 3 link</a></li>
-                            <li><a href="">Third one</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="">One more 2</a></li>
-                </ul>
-            </li>
+        <ul class="main-menu list-tables">
         </ul>
+    </aside>
+
+    <aside id="chat" class="sidebar">
+
+        <div class="chat-search">
+            <div class="fg-line">
+                <input type="text" class="form-control" placeholder="Search People">
+                <i class="zmdi zmdi-search"></i>
+            </div>
+        </div>
+
     </aside>
 
     <section id="content">
         <div class="container">
-            <div class="card">
-                <div class="card-body card-padding text-center">
-                    <h4>Material Admin Seed Project</h4>
-                </div>
-            </div>
+            <h3 class="table-name"></h3>
+            <div class="table-data-container"></div>
         </div>
     </section>
 </section>
 
-<footer id="footer">
-    Copyright &copy; 2015 Material Admin
+<!-- Page Loader -->
+<div class="page-loader">
+    <div class="preloader pls-blue">
+        <svg class="pl-circular" viewBox="25 25 50 50">
+            <circle class="plc-path" cx="50" cy="50" r="20"/>
+        </svg>
 
-    <ul class="f-menu">
-        <li><a href="">Home</a></li>
-        <li><a href="">Dashboard</a></li>
-        <li><a href="">Reports</a></li>
-        <li><a href="">Support</a></li>
-        <li><a href="">Contact</a></li>
-    </ul>
-</footer>
+        <p>Please wait...</p>
+    </div>
+</div>
+
+<!-- Older IE warning message -->
+<!--[if lt IE 9]>
+<div class="ie-warning">
+    <h1 class="c-white">Warning!!</h1>
+    <p>You are using an outdated version of Internet Explorer, please upgrade <br/>to any of the following web browsers
+        to access this website.</p>
+    <div class="iew-container">
+        <ul class="iew-download">
+            <li>
+                <a href="http://www.google.com/chrome/">
+                    <img src="img/browsers/chrome.png" alt="">
+                    <div>Chrome</div>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.mozilla.org/en-US/firefox/new/">
+                    <img src="img/browsers/firefox.png" alt="">
+                    <div>Firefox</div>
+                </a>
+            </li>
+            <li>
+                <a href="http://www.opera.com">
+                    <img src="img/browsers/opera.png" alt="">
+                    <div>Opera</div>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.apple.com/safari/">
+                    <img src="img/browsers/safari.png" alt="">
+                    <div>Safari</div>
+                </a>
+            </li>
+            <li>
+                <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">
+                    <img src="img/browsers/ie.png" alt="">
+                    <div>IE (New)</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <p>Sorry for the inconvenience!</p>
+</div>
+<![endif]-->
 
 <!-- Javascript Libraries -->
 <script src="vendors/bower_components/jquery/dist/jquery.min.js"></script>
 <script src="vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<script src="vendors/bower_components/flot/jquery.flot.js"></script>
+<script src="vendors/bower_components/flot/jquery.flot.resize.js"></script>
+<script src="vendors/bower_components/flot.curvedlines/curvedLines.js"></script>
+<script src="vendors/sparklines/jquery.sparkline.min.js"></script>
+<script src="vendors/bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
+
+<script src="vendors/bower_components/moment/min/moment.min.js"></script>
+<script src="vendors/bower_components/fullcalendar/dist/fullcalendar.min.js "></script>
+<script src="vendors/bower_components/simpleWeather/jquery.simpleWeather.min.js"></script>
+<script src="vendors/bower_components/Waves/dist/waves.min.js"></script>
+<script src="vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
+<script src="vendors/bower_components/sweetalert2/dist/sweetalert2.min.js"></script>
 <script src="vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
 
-<script src="js/app.min.js"></script>
+<!-- Placeholder for IE9 -->
+<!--[if IE 9 ]>
+<script src="vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>
+<![endif]-->
+
+<script src="js/app.js"></script>
+<script src="/app/plugins/jquery.tabledit.js"></script>
+<script src="/app/plugins/utilities.js"></script>
+<script src="/app/js/brainspa-service.js"></script>
+<script src="/app/js/brainspa-layout.js"></script>
+<script src="/app/js/brainspa.js"></script>
 </body>
 </html>
