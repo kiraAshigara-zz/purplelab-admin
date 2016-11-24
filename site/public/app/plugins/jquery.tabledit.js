@@ -11,6 +11,7 @@
  */
 
 var Edit;
+var Delete;
 
 if (typeof jQuery === 'undefined') {
     throw new Error('Tabledit requires jQuery library.');
@@ -329,7 +330,7 @@ if (typeof jQuery === 'undefined') {
          *
          * @type object
          */
-        var Delete = {
+        Delete = {
             reset: function (td) {
                 // Reset delete button to initial status.
                 $table.find('.tabledit-confirm-button').hide();

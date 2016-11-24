@@ -19,6 +19,7 @@
     <!-- CSS -->
     <link href="css/app_1.min.css" rel="stylesheet">
     <link href="css/app_2.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/app/plugins/sweet-alert/sweetalert.css">
     <link href="/app/css/custom.css" rel="stylesheet">
 
 </head>
@@ -36,16 +37,6 @@
         <li class="hi-logo hidden-xs">
             <a href="index.html">Spa Admin Center</a>
         </li>
-
-        <li class="pull-right">
-            <ul class="hi-menu">
-
-                <li data-ma-action="search-open">
-                    <a href=""><i class="him-icon zmdi zmdi-search"></i></a>
-                </li>
-
-            </ul>
-        </li>
     </ul>
 
     <!-- Top Search Content -->
@@ -54,12 +45,6 @@
             <i class="hsw-close zmdi zmdi-arrow-left" data-ma-action="search-close"></i>
             <input type="text">
         </div>
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        margin: 0;
-        padding: 0;
-        max-width: 200px;
     </div>
 </header>
 
@@ -85,6 +70,9 @@
             </ul>
         </div>
 
+        <input class="search-tables" placeholder="filter tables by name" />
+        <i class="him-icon zmdi zmdi-search search-tables-icon"></i>
+
         <ul class="main-menu list-tables">
         </ul>
     </aside>
@@ -103,7 +91,14 @@
     <section id="content">
         <div class="container">
             <h3 class="table-name"></h3>
-            <div class="table-data-container"></div>
+            <div class="table-data-container">
+                <button class="btn btn-success waves-effect add-new-row">New row</button>
+            </div>
+            <div class="preloader pls-blue loading-tables">
+                <svg class="pl-circular" viewBox="25 25 50 50">
+                    <circle class="plc-path" cx="50" cy="50" r="20"></circle>
+                </svg>
+            </div>
         </div>
     </section>
 </section>
@@ -163,6 +158,36 @@
 </div>
 <![endif]-->
 
+<div class="modal-new-row modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">New row</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table-fields">
+                    <tbody>
+                    <tr>
+                        <td>VAL</td>
+                        <td><input type="number"/></td>
+                    </tr>
+                    <tr>
+                        <td>DESCRIPTION</td>
+                        <td><input type="text"/></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary save-new-row">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
 <!-- Javascript Libraries -->
 <script src="vendors/bower_components/jquery/dist/jquery.min.js"></script>
 <script src="vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -187,6 +212,7 @@
 <![endif]-->
 
 <script src="js/app.js"></script>
+<script src="/app/plugins/sweet-alert/sweetalert.min.js"></script>
 <script src="/app/plugins/jquery.tabledit.js"></script>
 <script src="/app/plugins/utilities.js"></script>
 <script src="/app/js/brainspa-service.js"></script>
