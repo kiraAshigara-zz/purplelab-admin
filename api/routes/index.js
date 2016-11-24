@@ -58,7 +58,7 @@ router.get('/get-data/:tableName', security.auth, function (req, res, next) {
     var connection = dbconnection.getConnection();
     var tableName = req.params["tableName"];
 
-    var query = util.format("select * from %s", tableName);
+    var query = util.format("select * from %s LIMIT 1000", tableName);
     connection.query(query, function (err, rows, fields) {
         if (err) return next(err);
         var result = [];
