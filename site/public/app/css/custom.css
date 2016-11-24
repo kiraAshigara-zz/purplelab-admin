@@ -64,3 +64,10 @@
     overflow-x: auto;
     width: 100%;
 }
+
+li[table-name] i {
+    background-image: url("/img/table.png");
+    background-size: 20px 23px;
+    background-repeat: no-repeat;
+    margin-top: 9px;
+}
