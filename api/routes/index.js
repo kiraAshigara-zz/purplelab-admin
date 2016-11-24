@@ -7,7 +7,7 @@ var router = express.Router();
 
 
 router.get('/', security.auth, function (req, res, next) {
-    res.render('index', {title: 'Api braninspa'});
+    res.render('index', {title: 'Api braninspa admin LUP tables'});
 });
 
 router.get('/list-tables', security.auth, function (req, res, next) {
@@ -29,7 +29,7 @@ router.get('/list-tables', security.auth, function (req, res, next) {
 router.get('/list-tables/:tableName', security.auth, function (req, res, next) {
     var connection = dbconnection.getConnection();
     var tableName = req.params["tableName"];
-    var query = util.format("DESCRIBE %s", tableName);
+    var query = util.format("DESCRIBE `%s`", tableName);
     connection.query(query, function (err, rows, fields) {
         if (err) return next(err);
         var result = {
@@ -58,7 +58,7 @@ router.get('/get-data/:tableName', security.auth, function (req, res, next) {
     var connection = dbconnection.getConnection();
     var tableName = req.params["tableName"];
 
-    var query = util.format("select * from %s LIMIT 1000", tableName);
+    var query = util.format("select * from `%s` LIMIT 1000", tableName);
     connection.query(query, function (err, rows, fields) {
         if (err) return next(err);
         var result = [];
@@ -80,7 +80,7 @@ router.post('/save/:tableName', security.auth, function (req, res, next) {
         obj[field.fieldName] = field.fieldValue;
     }
 
-    var insertQuery = util.format("INSERT INTO %s SET ?", tableName);
+    var insertQuery = util.format("INSERT INTO `%s` SET ?", tableName);
     var connection = dbconnection.getConnection();
 
     connection.query(insertQuery, obj, function (err, result) {
@@ -108,7 +108,7 @@ router.post('/update/:tableName', security.auth, function (req, res, next) {
 
         var queries = '';
         values.forEach(function (item) {
-            var queryUpdate = util.format("UPDATE %s SET ? where %s = '%s';",
+            var queryUpdate = util.format("UPDATE `%s` SET ? where %s = '%s';",
                 tableName, indexName, body.primaryKeyValue);
             queries += mysql.format(queryUpdate, item);
         });
@@ -128,7 +128,7 @@ router.delete('/delete/:tableName/:pk', security.auth, function (req, res, next)
     dbconnection.getPrimaryKeyFromTable(connection, tableName, function (data) {
         var indexName = data["Column_name"];
 
-        var queryDelete = util.format("delete from %s where %s = '%s'", tableName, indexName, pk);
+        var queryDelete = util.format("delete from `%s` where %s = '%s'", tableName, indexName, pk);
         connection.query(queryDelete, function (err, result) {
             if (err) return next(err);
             res.json({"affectedRows": result["affectedRows"]});
