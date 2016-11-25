@@ -5,7 +5,7 @@ var BRAINSPA_SERVICE = (function () {
     var API_URL = 'http://' + window.location.host.replace('3000', '3001');
     var GET_ALL_TABLES = API_URL + '/list-tables';
     var GET_TABLE_FIELDS_INFO = API_URL + '/list-tables/{0}';
-    var GET_TABLE_DATA = API_URL + '/get-data/{0}';
+    var GET_TABLE_DATA = API_URL + '/get-data/{0}?offset={1}&limit={2}';
     var UPDATE_ROW = API_URL + '/update/{0}';
     var DELETE_ROW = API_URL + '/delete/{0}/{1}';
     var ADD_ROW = API_URL + '/save/{0}';
@@ -30,9 +30,9 @@ var BRAINSPA_SERVICE = (function () {
         }).done(done).fail(fail);
     }
 
-    function getDataByTableName(tableName, done, fail) {
+    function getDataByTableName(tableName, start, limit, done, fail) {
         $.ajax({
-            url: GET_TABLE_DATA.format(tableName),
+            url: GET_TABLE_DATA.format(tableName, start, limit),
             dataType: 'json',
             beforeSend: beforeSend
         }).done(done).fail(fail);

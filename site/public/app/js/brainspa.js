@@ -1,7 +1,9 @@
 var BRAINSPA = (function () {
 
     var lockTablesLoad = false;
+    var lockMoreRows = false;
     var timer;
+    var limit = 100;
 
     function initialize() {
         registerEvents();
@@ -19,14 +21,14 @@ var BRAINSPA = (function () {
             var tableName = $(this).attr('table-name');
 
             $('.table-name').text(tableName);
-            $('.table-data-container').hide();
+            $('.table-data-container, .load-more-rows').hide();
             $('.loading-tables').css('display', 'inherit');
 
 
             BRAINSPA_SERVICE.getFieldsInfoByTableName(tableName, function (fieldsInfo) {
                 createDataTable(fieldsInfo);
 
-                BRAINSPA_SERVICE.getDataByTableName(tableName, loadData, fail);
+                BRAINSPA_SERVICE.getDataByTableName(tableName, 0, limit, loadData, fail);
 
                 lockTablesLoad = false;
             }, fail);
@@ -78,6 +80,23 @@ var BRAINSPA = (function () {
 
             }, 300);
         });
+
+        $('.load-more-rows').click(function () {
+            if (lockMoreRows) {
+                return;
+            }
+
+            lockMoreRows = true;
+            $(this).hide();
+            $('.loading-more-rows').show();
+
+            var tableName = $('.table-name').text();
+            var start = parseInt($(this).attr('start'));
+            start += limit;
+            $(this).attr('start', start);
+
+            BRAINSPA_SERVICE.getDataByTableName(tableName, start, limit, showRows, fail);
+        });
     }
 
     function loadTables() {
@@ -111,6 +130,8 @@ var BRAINSPA = (function () {
                 editable: editable
             }
         });
+
+        $('.load-more-rows').attr('start', 0);
 
         Edit.submit = function (rowDOM) {
             var tableName = $('.table-name').text();
@@ -152,11 +173,26 @@ var BRAINSPA = (function () {
         $('.loading-tables').hide();
         $('.table-data-container').show();
 
+        showRows(data);
+
+        $('.add-new-row').show();
+    }
+
+    function showRows(data) {
         $.each(data, function (i, row) {
             $('.table-data').find('tbody').append(BRAINSPA_LAYOUT.dataTableRow(row));
         });
 
-        $('.add-new-row').show();
+        $('.load-more-rows').show();
+        $('.loading-more-rows').hide();
+
+        if (data.length === limit) {
+            $('.load-more-rows').show();
+        } else {
+            $('.load-more-rows').hide();
+        }
+
+        lockMoreRows = false;
     }
 
     function initializeModal() {

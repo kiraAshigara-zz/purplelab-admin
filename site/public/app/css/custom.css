@@ -71,3 +71,13 @@ li[table-name] i {
     background-repeat: no-repeat;
     margin-top: 9px;
 }
+
+.load-more {
+    width: 100%;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.load-more-rows, .loading-more-rows {
+    display: none;
+}
