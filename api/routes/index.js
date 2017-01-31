@@ -12,12 +12,12 @@ router.get('/', security.auth, function (req, res, next) {
 
 router.get('/list-tables', security.auth, function (req, res, next) {
     var connection = dbconnection.getConnection();
-    var query = 'show tables like \'%LUP%\'';
+    var query = 'show tables';
     connection.query(query, function (err, rows, fields) {
         if (err) return next(err);
         var tableNames = [];
         for (var i in rows) {
-            var val = rows[i]['Tables_in_brainspa (%LUP%)'];
+            var val = rows[i]['Tables_in_calculatorDB'];
             tableNames.push(val);
         }
         res.json(tableNames);

@@ -4,10 +4,10 @@ var util = require('util');
 
 var getConnection = function () {
     var connection = mysql.createConnection({
-        host: '104.196.180.164',
+        host: 'localhost',
         user: 'root',
-        password: 'racerx09!',
-        database: 'brainspa',
+        password: 'andres89',
+        database: 'calculatorDB',
         multipleStatements: true
     });
     return connection;
